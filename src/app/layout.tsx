@@ -5,6 +5,8 @@ import Navbar from "./components/navbar/Navbar";
 import Modal from "./components/modal/Modal";
 import RegisterModal from "./components/modal/RegisterModal";
 import ToasterProvider from "./providers/ToasterProvider";
+import LoginModal from "./components/modal/LoginModal";
+import getCurrentUser from "./actions/getCurrentUser";
 
 export const metadata: Metadata = {
   title: "Airbnb",
@@ -14,18 +16,20 @@ const font = Nunito({
   subsets: ["latin"],
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const currentUser = await getCurrentUser();
   return (
     <html lang='en'>
       <body className={font.className}>
         <ToasterProvider />
+        <LoginModal />
         <RegisterModal />
         {/* <Modal isOpen /> */}
-        <Navbar />
+        <Navbar currentUser={currentUser} />
         {children}
       </body>
     </html>
